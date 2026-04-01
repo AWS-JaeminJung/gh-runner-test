@@ -1,0 +1,23 @@
+name: Test Self-Hosted Runner
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: [self-hosted, linux, x64, ecs]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Hello from ECS Runner
+        run: |
+          echo "Hello from ECS Fargate Spot runner\!"
+          echo "Hostname: $(hostname)"
+          echo "OS: $(uname -a)"
+          echo "Runner name: $RUNNER_NAME"
+          echo "Working directory: $(pwd)"
+          ls -la
+      - name: Test network
+        run: |
+          curl -s https://api.github.com/zen
