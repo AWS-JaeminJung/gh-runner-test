@@ -1,0 +1,21 @@
+name: Test Windows Runner
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-windows:
+    runs-on: [self-hosted, windows, x64, ecs]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Hello from Windows ECS Runner
+        run: |
+          Write-Host "Hello from Windows ECS runner!"
+          Write-Host "Hostname: $env:COMPUTERNAME"
+          Write-Host "OS: $([System.Environment]::OSVersion)"
+          Write-Host "Runner name: $env:RUNNER_NAME"
+          Write-Host "Working directory: $(Get-Location)"
+          Get-ChildItem
+      - name: Test network
+        run: |
+          Invoke-RestMethod -Uri https://api.github.com/zen
